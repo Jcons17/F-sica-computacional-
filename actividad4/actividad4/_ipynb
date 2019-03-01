@@ -1,0 +1,421 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "SENTINELS = {'PRECIP':['NA'],'EVAP':['NA'],'TMAX':['NA'],'TMIN':['NA']}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df0=pd.read_csv('aguaprieta.txt',skiprows=0,sep='\\s+', na_values=SENTINELS)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pd.DataFrame(df0)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "df['FECHAS'] = pd.to_datetime(df0['FECHA'], dayfirst=True)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "FECHA             object\n",
+       "PRECIP           float64\n",
+       "EVAP             float64\n",
+       "TMAX             float64\n",
+       "TMIN             float64\n",
+       "FECHAS    datetime64[ns]\n",
+       "dtype: object"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.dtypes"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>FECHA</th>\n",
+       "      <th>PRECIP</th>\n",
+       "      <th>EVAP</th>\n",
+       "      <th>TMAX</th>\n",
+       "      <th>TMIN</th>\n",
+       "      <th>FECHAS</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>01/02/1961</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>19.5</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>1961-02-01</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>02/02/1961</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>20.0</td>\n",
+       "      <td>2.5</td>\n",
+       "      <td>1961-02-02</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>03/02/1961</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>2.7</td>\n",
+       "      <td>21.5</td>\n",
+       "      <td>1.8</td>\n",
+       "      <td>1961-02-03</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>04/02/1961</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>16.7</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>1961-02-04</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>05/02/1961</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.3</td>\n",
+       "      <td>11.4</td>\n",
+       "      <td>4.0</td>\n",
+       "      <td>1961-02-05</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        FECHA  PRECIP  EVAP  TMAX  TMIN     FECHAS\n",
+       "0  01/02/1961     0.0   NaN  19.5   2.0 1961-02-01\n",
+       "1  02/02/1961     0.0   NaN  20.0   2.5 1961-02-02\n",
+       "2  03/02/1961     0.0   2.7  21.5   1.8 1961-02-03\n",
+       "3  04/02/1961     0.0   3.0  16.7   1.0 1961-02-04\n",
+       "4  05/02/1961     0.0   1.3  11.4   4.0 1961-02-05"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df0.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df0['Año'] = df0['FECHAS'].dt.year\n",
+    "df0['Mes'] = df0['FECHAS'].dt.month"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>FECHA</th>\n",
+       "      <th>PRECIP</th>\n",
+       "      <th>EVAP</th>\n",
+       "      <th>TMAX</th>\n",
+       "      <th>TMIN</th>\n",
+       "      <th>FECHAS</th>\n",
+       "      <th>Año</th>\n",
+       "      <th>Mes</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>01/02/1961</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>19.5</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>1961-02-01</td>\n",
+       "      <td>1961</td>\n",
+       "      <td>2</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>02/02/1961</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>20.0</td>\n",
+       "      <td>2.5</td>\n",
+       "      <td>1961-02-02</td>\n",
+       "      <td>1961</td>\n",
+       "      <td>2</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>03/02/1961</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>2.7</td>\n",
+       "      <td>21.5</td>\n",
+       "      <td>1.8</td>\n",
+       "      <td>1961-02-03</td>\n",
+       "      <td>1961</td>\n",
+       "      <td>2</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>04/02/1961</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>16.7</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>1961-02-04</td>\n",
+       "      <td>1961</td>\n",
+       "      <td>2</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>05/02/1961</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.3</td>\n",
+       "      <td>11.4</td>\n",
+       "      <td>4.0</td>\n",
+       "      <td>1961-02-05</td>\n",
+       "      <td>1961</td>\n",
+       "      <td>2</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        FECHA  PRECIP  EVAP  TMAX  TMIN     FECHAS   Año  Mes\n",
+       "0  01/02/1961     0.0   NaN  19.5   2.0 1961-02-01  1961    2\n",
+       "1  02/02/1961     0.0   NaN  20.0   2.5 1961-02-02  1961    2\n",
+       "2  03/02/1961     0.0   2.7  21.5   1.8 1961-02-03  1961    2\n",
+       "3  04/02/1961     0.0   3.0  16.7   1.0 1961-02-04  1961    2\n",
+       "4  05/02/1961     0.0   1.3  11.4   4.0 1961-02-05  1961    2"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df0.head()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pd.DataFrame(df0)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 62,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "PrecipMensual = [df0['PRECIP'][df0['Mes']==[i+1]].mean() for i in range(0,12)]\n",
+    "PrecipAnual = [df0['PRECIP'][df0['Año']==[i+1]].mean() for i in range(1961,2011)] \n",
+    "TmaxMensual = [df0['TMAX'][df0['Mes']==[i+1]].mean()  for i in range(0,12)] \n",
+    "TMINMensual = [df0['TMIN'][df0['Mes']==[i+1]].mean()  for i in range(0,12)] \n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "Meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "2.952941176470588\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(PrecipMensual[6])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "x=Meses\n",
+    "n=np.arange(len(x))\n",
+    "y=PrecipMensual\n",
+    "\n",
+    "plt.bar(n, y)\n",
+    "plt.xticks(n,x,size=\"small\",color=\"k\",rotation=\"45\")\n",
+    "plt.title(\"Hola\")\n",
+    "plt.savefig(\"precip_mensual\", plt=2000)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.1"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
